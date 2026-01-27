@@ -1,0 +1,17 @@
+# Personal bindings and graphics settings
+*/*.binds
+*/Graphics/
+*.backup
+*.log
+
+# Personal reference files
+*.jpg
+*.jpeg
+*.png
+url.txt
+
+# Local development files
+.claude/
+
+# Keep folder structure but ignore contents
+!*/Graphics/.gitkeep
