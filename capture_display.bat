@@ -6,33 +6,26 @@ set "SCRIPT_DIR=%~dp0"
 set "PROFILE=%~1"
 
 if "%PROFILE%"=="" (
-  echo Usage: capture_graphics.bat ^<ProfileName^>
-  echo Example: capture_graphics.bat vr_hotas
+  echo Usage: capture_display.bat ^<ProfileName^>
+  echo Example: capture_display.bat vr
   exit /b 1
 )
 
-REM Target profile folder - Graphics subfolder
-set "DEST=%SCRIPT_DIR%%PROFILE%\Graphics"
+REM Target profile folder
+set "DEST=%SCRIPT_DIR%display\%PROFILE%"
 
 REM Graphics folder source location
 set "GRAPHICS_LIVE=%LOCALAPPDATA%\Frontier Developments\Elite Dangerous\Options\Graphics"
 
-REM Check if profile folder exists
-set "PROFILE_DIR=%SCRIPT_DIR%%PROFILE%"
-if not exist "%PROFILE_DIR%" (
-  echo [ERROR] Profile folder not found: "%PROFILE_DIR%"
-  exit /b 2
-)
-
-REM Create Graphics subfolder if it doesn't exist
+REM Create display profile folder if it doesn't exist
 if not exist "%DEST%" (
   mkdir "%DEST%"
-  echo [INFO] Created Graphics subfolder
+  echo [INFO] Created display profile folder: %PROFILE%
 )
 
 echo.
-echo === Capture Elite Dangerous Graphics Settings ===
-echo Profile:  %PROFILE%
+echo === Capture Elite Dangerous Display Settings ===
+echo Profile:     %PROFILE%
 echo Destination: %DEST%
 echo.
 
@@ -43,12 +36,10 @@ if exist "%GRAPHICS_LIVE%" (
     echo [ERROR] Failed to copy graphics files
     exit /b 3
   )
-  echo [OK] Captured all graphics settings files
+  echo [OK] Captured display settings to "%PROFILE%" profile.
 ) else (
   echo [ERROR] Graphics folder not found at: "%GRAPHICS_LIVE%"
   exit /b 4
 )
 
-echo.
-echo [OK] Graphics settings captured to "%PROFILE%" profile.
 exit /b 0

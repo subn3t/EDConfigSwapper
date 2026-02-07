@@ -1,25 +1,25 @@
 # Elite Dangerous Profile Swapper
 
-A simple batch script utility to quickly swap between different Elite Dangerous control and graphics configurations. Perfect for switching between VR/HOTAS and 2D/controller setups with a single double-click.
+A simple batch script utility to independently swap between different Elite Dangerous control bindings and display configurations. Mix and match controls and display settings for maximum flexibility.
 
 ## Features
 
-- Instantly swap control bindings between profiles
-- Automatically apply graphics settings optimized for each setup
+- **Independent swapping** - Controls and display settings are separate
+- Mix and match: HOTAS + VR, HOTAS + TV, Controller + VR, Controller + TV
 - Simple double-click operation
 - Preserves all Elite Dangerous settings including backups and logs
 - Easily extensible to additional profiles
 
 ## What Gets Swapped
 
-**Control Bindings:**
+**Controls** (swap_controls.bat):
 - All `.binds` files
 - Start presets
 - Binding backup files
 - Error logs
 
-**Graphics Settings:**
-- Display settings (resolution, windowed/fullscreen, etc.)
+**Display** (swap_display.bat):
+- Display settings (resolution, windowed/fullscreen, VR mode, etc.)
 - Quality settings (textures, shadows, bloom, anti-aliasing, etc.)
 - All other graphics configuration files
 
@@ -28,126 +28,108 @@ A simple batch script utility to quickly swap between different Elite Dangerous 
 - Elite Dangerous (Odyssey)
 - Windows operating system
 
-## Installation
-
-1. Clone or download this repository
-2. **IMPORTANT:** Edit `capture_graphics.bat` and update the graphics folder path if needed:
-   ```batch
-   set "GRAPHICS_LIVE=%LOCALAPPDATA%\Frontier Developments\Elite Dangerous\Options\Graphics"
-   ```
-   The default path should work for most installations.
-
-3. Create your profile folders if they don't exist:
-   - `vr_hotas/` - For your VR setup
-   - `2d_controller/` - For your 2D setup
-   - Add more profiles as needed (see "Adding More Profiles" below)
-
-## Setup Your Profiles
-
-### Initial Capture
-
-For each profile you want to create:
-
-1. Launch Elite Dangerous and configure your controls and graphics for that setup
-2. Exit Elite Dangerous
-3. Run: `capture_graphics.bat <profile_name>`
-   - Example: `capture_graphics.bat vr_hotas`
-4. Repeat for each profile
-
-### What Gets Captured
-
-The capture script will copy:
-- All files from your Elite Dangerous Bindings folder to `<profile>/`
-- All files from your Elite Dangerous Graphics folder to `<profile>/Graphics/`
-
 ## Usage
 
-Simply double-click the profile launcher you want to use:
+Double-click the quick launchers to swap settings:
 
-- **vr_hotas.bat** - Switch to VR/HOTAS setup
-- **2d_controller.bat** - Switch to 2D/controller setup
+**Controls:**
+- **_hotas.bat** - Switch to HOTAS control bindings
+- **_controller.bat** - Switch to controller bindings
 
-The script will:
-1. Clear the live bindings folder
-2. Copy all bindings from the selected profile
-3. Copy all graphics settings from the selected profile
-4. Report success or any errors
+**Display:**
+- **_vr.bat** - Switch to VR display settings
+- **_2d.bat** - Switch to 2D/TV display settings
+
+### Example Combinations
+
+| Setup | Run |
+|-------|-----|
+| VR Simrig | `_hotas.bat` + `_vr.bat` |
+| Couch Gaming | `_controller.bat` + `_2d.bat` |
+| TV Simrig | `_hotas.bat` + `_2d.bat` |
 
 Then launch Elite Dangerous and your settings will be active.
 
 ## File Structure
 
 ```
-EDBinds swapper/
-├── swap_binds.bat              # Main swapping script (called by profile launchers)
-├── capture_graphics.bat        # Helper script to capture current settings
-├── vr_hotas.bat               # VR profile launcher
-├── 2d_controller.bat          # 2D profile launcher
-├── vr_hotas/                  # VR profile folder
-│   ├── Graphics/              # VR graphics settings
-│   └── [bindings files]       # VR control bindings
-└── 2d_controller/             # 2D profile folder
-    ├── Graphics/              # 2D graphics settings
-    └── [bindings files]       # 2D control bindings
+EDConfigSwapper/
+├── swap_controls.bat       # Controls swapping script
+├── swap_display.bat        # Display swapping script
+├── capture_controls.bat    # Capture current control bindings
+├── capture_display.bat     # Capture current display settings
+├── _hotas.bat             # Quick launcher: HOTAS controls
+├── _controller.bat        # Quick launcher: Controller
+├── _vr.bat                # Quick launcher: VR display
+├── _2d.bat                # Quick launcher: 2D display
+├── controls/
+│   ├── hotas/             # HOTAS control bindings
+│   └── controller/        # Controller bindings
+└── display/
+    ├── vr/                # VR display settings
+    └── 2d/                # 2D/TV display settings
 ```
+
+## Setup Your Profiles
+
+### Initial Capture
+
+For each display profile you want to create:
+
+1. Launch Elite Dangerous and configure your graphics for that setup
+2. Exit Elite Dangerous
+3. Run: `capture_display.bat <profile_name>`
+   - Example: `capture_display.bat vr`
+4. Repeat for each display profile
+
+For control bindings:
+1. Configure your controls in-game
+2. Exit Elite Dangerous
+3. Run: `capture_controls.bat <profile_name>`
+   - Example: `capture_controls.bat hotas`
 
 ## Adding More Profiles
 
-To create additional profiles (e.g., for racing, exploration, combat):
+### New Controls Profile
 
-1. Create a new folder with your profile name (e.g., `racing`)
-2. Create a new launcher batch file:
+1. Create folder: `controls/<profile_name>/`
+2. Create launcher:
    ```batch
    @echo off
-   setlocal
-   set "PROFILE=%~n0"
-   call "%~dp0swap_binds.bat" "%PROFILE%"
-   endlocal
+   call "%~dp0swap_controls.bat" <profile_name>
    ```
-3. Name it `racing.bat` (must match the folder name)
-4. Configure settings in-game and capture them: `capture_graphics.bat racing`
+3. Copy your bindings into the folder
 
-## How It Works
+### New Display Profile
 
-### swap_binds.bat
-The main script that performs the swap:
-1. Validates the profile folder exists
-2. Clears the live Elite Dangerous Bindings folder
-3. Copies all bindings from the profile folder (excluding Graphics subfolder)
-4. Copies all graphics settings from the profile's Graphics subfolder to the live Graphics folder
-
-### capture_graphics.bat
-Helper script to save current settings:
-1. Takes a profile name as argument
-2. Copies all files from Elite Dangerous Graphics folder to the profile's Graphics subfolder
-3. Creates the Graphics subfolder if it doesn't exist
-
-### Profile Launchers (vr_hotas.bat, 2d_controller.bat)
-Simple wrappers that:
-1. Extract their own filename as the profile name
-2. Call swap_binds.bat with that profile name
+1. Create folder: `display/<profile_name>/`
+2. Create launcher:
+   ```batch
+   @echo off
+   call "%~dp0swap_display.bat" <profile_name>
+   ```
+3. Capture settings: `capture_display.bat <profile_name>`
 
 ## Important Notes
 
-- The live Elite Dangerous folders are:
+- Live Elite Dangerous folders:
   - Bindings: `%LOCALAPPDATA%\Frontier Developments\Elite Dangerous\Options\Bindings`
   - Graphics: `%LOCALAPPDATA%\Frontier Developments\Elite Dangerous\Options\Graphics`
 - Always exit Elite Dangerous before swapping profiles
-- The swap script completely clears the Bindings folder before copying - this ensures clean swaps
-- Graphics files are overwritten, not cleared
-- Your original settings are preserved in the profile folders
+- Controls swap completely clears the Bindings folder before copying
+- Display swap overwrites existing graphics files
 
 ## Troubleshooting
 
 **Script reports "Profile folder not found"**
-- Ensure the profile folder exists and matches the launcher filename exactly
+- Ensure the profile folder exists in the correct location (`controls/` or `display/`)
 
-**Graphics settings aren't changing**
-- Make sure you've captured the graphics settings with `capture_graphics.bat`
-- Check that the `Graphics/` subfolder exists in your profile folder
+**Display settings aren't changing**
+- Make sure you've captured the settings with `capture_display.bat`
+- Check that files exist in `display/<profile>/`
 
 **Bindings aren't loading in-game**
-- Verify the bindings files exist in your profile folder
+- Verify the bindings files exist in `controls/<profile>/`
 - Check Elite Dangerous binding loading errors in-game
 
 ## License

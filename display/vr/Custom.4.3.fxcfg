@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Root PresetName="Custom" MajorVersion="4" MinorVersion="3">
+	<BlurEnabled>true</BlurEnabled>
+	<TerrainCheckerboardRenderingEnabled>true</TerrainCheckerboardRenderingEnabled>
+	<AOQuality>1</AOQuality>
+	<DOFEnabled>0</DOFEnabled>
+	<BloomQuality>0</BloomQuality>
+	<EnvmapQuality>1</EnvmapQuality>
+	<MaterialQuality>1</MaterialQuality>
+	<EnvironmentQuality>1</EnvironmentQuality>
+	<FXQuality>1</FXQuality>
+	<ParticleEffectsQuality>0</ParticleEffectsQuality>
+	<GalaxyMapQuality>0</GalaxyMapQuality>
+	<GUIColourQuality>0</GUIColourQuality>
+	<TerrainQuality>1</TerrainQuality>
+	<TerrainLodBlendingQuality>1</TerrainLodBlendingQuality>
+	<SurfaceMaterialQuality>1</SurfaceMaterialQuality>
+	<JetConeQuality>2</JetConeQuality>
+	<VolumetricsQuality>1</VolumetricsQuality>
+	<DirectionalShadowQuality>2</DirectionalShadowQuality>
+	<SpotShadowQuality>2</SpotShadowQuality>
+	<UpscalingQuality>2</UpscalingQuality>
+	<TextureQualityEx>1</TextureQualityEx>
+	<AAMode>4</AAMode>
+	<TextureFilterQuality>4</TextureFilterQuality>
+	<SurfaceSamplerQuality>2</SurfaceSamplerQuality>
+	<PerformanceQualitySetting>0</PerformanceQualitySetting>
+	<ResolutionSetting>0</ResolutionSetting>
+	<LODDistanceScale>0.700000</LODDistanceScale>
+	<HMDRenderTargetMultiplier>1.000000</HMDRenderTargetMultiplier>
+	<SSAAMultiplier>0.770000</SSAAMultiplier>
+	<GpuSchedulerMultiplier>0.000000</GpuSchedulerMultiplier>
+	<FFXCASIntensity>0.500000</FFXCASIntensity>
+</Root>

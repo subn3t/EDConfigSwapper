@@ -31,7 +31,7 @@ if not exist "%LIVE%" (
 )
 
 echo.
-echo === Elite Dangerous Bindings Swap ===
+echo === Elite Dangerous Config Swap ===
 echo Profile:  %PROFILE%
 echo Source:   %SRC%
 echo Live:     %LIVE%
